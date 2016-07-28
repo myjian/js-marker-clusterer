@@ -1053,8 +1053,14 @@ ClusterIcon.prototype.triggerClusterClick = function(event) {
   google.maps.event.trigger(markerClusterer, 'clusterclick', this.cluster_, event);
 
   if (markerClusterer.isZoomOnClick()) {
-    // Zoom into the cluster.
-    this.map_.fitBounds(this.cluster_.getBounds());
+    var zoom = this.map_.getZoom();
+    var mz = this.markerClusterer_.getMaxZoom();
+    if (mz && zoom >= mz) {
+      this.map_.setCenter(this.center_);
+    } else {
+      // Zoom into the cluster.
+      this.map_.fitBounds(this.cluster_.getBounds());
+    }
   }
 };
 
